@@ -20,8 +20,9 @@ def get_movie_codes():
     # 영화 상영 정보와 레퍼런스 테이블 생성 
     res = pd.DataFrame()
     target_date = start_date
-    print("loading movie codes...")
+    
     while target_date <= end_date:
+        print("uploading movie sales data... " + target_date.strftime('%Y%m%d') + " done")
         # API 호출을 위한 파라미터 설정
         params = {
             'key': api_key,
@@ -46,6 +47,8 @@ def get_movie_codes():
                 print(str(error))
 
         target_date += timedelta(days=1)
+    res = res.reset_index(drop=True).drop(['rnum'], axis=1)
+    res.to_csv('movie_sale.csv', index=False)
     movie_codes= res[['movieNm', 'movieCd']].drop_duplicates()
     movie_codes.to_csv('movie_codes.csv', index=False)
     return movie_codes
