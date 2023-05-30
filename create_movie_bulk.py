@@ -4,7 +4,7 @@ import pandas as pd
 
 def get_movie_codes():
     # 초기 데이터 세팅
-    api_key = 'fab5cb6fcba4e18cd3cfd2f1167ce9d1'
+    api_key = '7a018f527dedab08db78749a2a2fdeca'
     api_url = 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json'
     start_date = datetime.now().date() - timedelta(days=90)
 
@@ -22,7 +22,6 @@ def get_movie_codes():
     target_date = start_date
     
     while target_date <= end_date:
-        print("uploading movie sales data... " + target_date.strftime('%Y%m%d') + " done")
         # API 호출을 위한 파라미터 설정
         params = {
             'key': api_key,
@@ -38,8 +37,10 @@ def get_movie_codes():
 
             if response.status_code == 200:
                 # JSON 데이터 파싱
+                print("uploading movie sales data... " + target_date.strftime('%Y%m%d') + " done")
                 json_data = response.json()
                 df = pd.DataFrame(json_data['boxOfficeResult']['dailyBoxOfficeList'])
+                df['date'] = target_date.strftime('%Y%m%d')
                 res = pd.concat([res, df])
 
         except Exception as error:
@@ -62,10 +63,10 @@ def get_movie_details(movie_codes):
     movie_grade = pd.DataFrame()
     # 영화 코드 별 상세 정보 테이블 추출
     api_url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
-    api_key = "fab5cb6fcba4e18cd3cfd2f1167ce9d1"  # Enter your API key here
+    api_key = "7a018f527dedab08db78749a2a2fdeca"  # Enter your API key here
     index = 1
     for movieCd in movie_codes["movieCd"]:
-        print("loading movie details... " + str(index) + "/" + str(len(movie_codes)) + " done")
+        print("uploading movie details... " + str(index) + "/" + str(len(movie_codes)) + " done")
         # API 호출
         params = {
             'key': api_key,
