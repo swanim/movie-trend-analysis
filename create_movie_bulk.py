@@ -6,7 +6,7 @@ def get_movie_codes():
     # 초기 데이터 세팅
     api_key = '7a018f527dedab08db78749a2a2fdeca'
     api_url = 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json'
-    start_date = datetime.now().date() - timedelta(days=90)
+    start_date = datetime.now().date() - timedelta(days=365)
 
     # 매일 업데이트 되지만 안전하게 -2일로 설정
     end_date = datetime.now().date() - timedelta(days=2)
@@ -49,6 +49,8 @@ def get_movie_codes():
 
         target_date += timedelta(days=1)
     res = res.reset_index(drop=True).drop(['rnum'], axis=1)
+    date_column = res.pop('date')
+    res.insert(0, 'date', date_column)
     res.to_csv('movie_sale.csv', index=False)
     movie_codes= res[['movieNm', 'movieCd']].drop_duplicates()
     movie_codes.to_csv('movie_codes.csv', index=False)
