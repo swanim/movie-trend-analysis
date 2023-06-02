@@ -3,19 +3,20 @@
 # 3. Run the following code on private EC2 instance
 
 import pandas as pd
-import boto3 # 프라이빗 인스턴스에서 필요함
+import boto3
 import io
+import json
 
-df = pd.read_csv('pred_set.csv')
+df = pd.read_csv('/home/ec2-user/project/pred_set.csv')
 
 # Instantiate SageMaker runtime client
-sagemaker_runtime = boto3.client('sagemaker-runtime', region_name='ap-northeast-2')
+sagemaker_runtime = boto3.client('sagemaker-runtime', region_name='YOUR_REGION')
 
 # Iterate over the rows and make predictions using SageMaker endpoint
 predicted_sales = []
 curr = 1
 for _, row in df.iterrows():
-    # Prepare the input data for prediction, same ordering as the training data
+    # Prepare the input data for prediction
     input_data = row[['date', 'movieCd', 'genres', 'ticketRatio', 'openDt', 'showingDays']].values.tolist()  # Adjust based on your input features
 
     # Convert the input data to CSV format
@@ -26,12 +27,11 @@ for _, row in df.iterrows():
 
     # Make a prediction using the SageMaker endpoint
     response = sagemaker_runtime.invoke_endpoint(
-        EndpointName='movie-autoML',
+        EndpointName='YOUR_ENDPOINT_NAME',
         Body=input_content,
         ContentType='text/csv'
     )
 
-    # Decode JSON
     response_body = response['Body'].read().decode()
     predicted_sales_value = round(float(response_body.strip()),2)
 
@@ -42,4 +42,5 @@ for _, row in df.iterrows():
 
 # Add the predicted_sales column to the DataFrame
 df['predicted_sales'] = predicted_sales
-df.to_csv('prediction_result.csv')
+df.to_csv('/home/ec2-user/project/prediction_result.csv')
+

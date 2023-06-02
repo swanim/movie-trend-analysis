@@ -1,0 +1,2 @@
+0 10 * * * /home/ec2-user/project/run_daily_data.sh >> /home/ec2-user/project/output.log 2>&1
+11 10 * * * /home/ec2-user/project/upload_csv.sh >> /home/ec2-user/project/output_upload.log 2>&1
