@@ -4,12 +4,12 @@ import pandas as pd
 
 def get_movie_codes():
     # 초기 데이터 세팅
-    api_key = '7a018f527dedab08db78749a2a2fdeca'
+    api_key = 'YOUR_API_KEY'
     api_url = 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json'
-    start_date = datetime.now().date() - timedelta(days=365)
+    start_date = datetime.now().date() - timedelta(days=2)
 
     # 매일 업데이트 되지만 안전하게 -2일로 설정
-    end_date = datetime.now().date() - timedelta(days=2)
+    end_date = datetime.now().date() - timedelta(days=1)
     item_per_page='10'
     multi_movie_yn=None
     rep_nation_cd=None
@@ -17,11 +17,11 @@ def get_movie_codes():
 
     movie_codes = pd.DataFrame()
 
-    # 영화 상영 정보와 레퍼런스 테이블 생성 
+ # 영화 상영 정보와 레퍼런스 테이블 생성
     res = pd.DataFrame()
     target_date = start_date
-    
-    while target_date <= end_date:
+
+    while target_date < end_date:
         # API 호출을 위한 파라미터 설정
         params = {
             'key': api_key,
@@ -48,12 +48,13 @@ def get_movie_codes():
                 print(str(error))
 
         target_date += timedelta(days=1)
+
     res = res.reset_index(drop=True).drop(['rnum'], axis=1)
     date_column = res.pop('date')
     res.insert(0, 'date', date_column)
-    res.to_csv('movie_sale.csv', index=False)
+    res.to_csv('/home/ec2-user/project/raw_data/sale/movie_sale.csv', index=False)
     movie_codes= res[['movieNm', 'movieCd']].drop_duplicates()
-    movie_codes.to_csv('movie_codes.csv', index=False)
+    movie_codes.to_csv('/home/ec2-user/project/raw_data/codes/movie_codes.csv', index=False)
     return movie_codes
 
 
@@ -65,7 +66,7 @@ def get_movie_details(movie_codes):
     movie_grade = pd.DataFrame()
     # 영화 코드 별 상세 정보 테이블 추출
     api_url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json"
-    api_key = "7a018f527dedab08db78749a2a2fdeca"  # Enter your API key here
+    api_key = "YOUR_API_KEY"
     index = 1
     for movieCd in movie_codes["movieCd"]:
         print("uploading movie details... " + str(index) + "/" + str(len(movie_codes)) + " done")
@@ -81,13 +82,13 @@ def get_movie_details(movie_codes):
                 # JSON 데이터 파싱
                 json_data = response.json()
                 df = pd.json_normalize(json_data['movieInfoResult']['movieInfo'])
-                
-                # 추후에 parameter based function으로 최적화 
+
+                # 추후에 parameter based function으로 최적화
                 if len(df['actors'][0]) > 0:
                     df_summary = df.explode(['actors'])
                     df_summary['actors'] = df_summary['actors'].apply(lambda x: x['peopleNm'])
                     movie_summary = pd.concat([movie_summary, df_summary[['movieCd', 'movieNm', 'movieNmEn', 'showTm', 'prdtYear', 'openDt', 'actors']]]).drop_duplicates()
-        
+
                 if len(df['genres'][0]) > 0:
                     df_genre = df.explode(['genres'])
                     df_genre['genres'] = df_genre['genres'].apply(lambda x: x['genreNm'])
@@ -108,26 +109,22 @@ def get_movie_details(movie_codes):
                     df_grade['audits'] = df_grade['audits'].apply(lambda x: x['watchGradeNm'])
                     movie_grade = pd.concat([movie_grade, df_grade[['movieCd', 'audits']]]).drop_duplicates()
 
-
         except Exception as error:
                 print("movieCd: " + movieCd)
                 print("API 호출 중 오류가 발생하였습니다.")
                 print(str(error))
         index += 1
 
-    movie_summary.to_csv('movie_summary.csv', index=False)
-    movie_genre.to_csv('movie_genre.csv', index=False)
-    movie_director.to_csv('movie_director.csv', index=False)
-    movie_company.to_csv('movie_company.csv', index=False)
-    movie_grade.to_csv('movie_grade.csv', index=False)
+    movie_summary.to_csv('/home/ec2-user/project/raw_data/summary/movie_summary.csv', index=False)
+    movie_genre.to_csv('/home/ec2-user/project/raw_data/genre/movie_genre.csv', index=False)
+    movie_director.to_csv('/home/ec2-user/project/raw_data/director/movie_director.csv', index=False)
+    movie_company.to_csv('/home/ec2-user/project/raw_data/company/movie_company.csv', index=False)
+    movie_grade.to_csv('/home/ec2-user/project/raw_data/grade/movie_grade.csv', index=False)
 
 
 def run():
     movie_codes = get_movie_codes()
     get_movie_details(movie_codes)
-    
+
 def main():
-    run()    
-    
-if __name__ == "__main__":
-    main()
+    run()
