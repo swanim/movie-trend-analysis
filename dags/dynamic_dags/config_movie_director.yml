@@ -1,0 +1,6 @@
+dag_id: 'movie_director'
+schedule: '@daily'
+catchup: False
+schema: 'raw_data'
+table: 'movie_director'
+upsert_keys: ["movieCd"]
