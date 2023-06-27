@@ -4,13 +4,13 @@ from datetime import datetime
 from airflow.providers.amazon.aws.transfers.s3_to_redshift import S3ToRedshiftOperator
 from airflow.models import Variable
 
-with DAG(dag_id="{{ dag_id }}_daily",
+with DAG(dag_id="movie_summary_daily",
     start_date=datetime(2023, 6, 23),
-    schedule='{{ schedule }}',
-    catchup={{ catchup or True }}) as dag:
+    schedule='@daily',
+    catchup=True) as dag:
 
-    schema = "{{ schema }}"
-    table = "{{ table }}"
+    schema = "raw_data"
+    table = "movie_summary"
     s3_bucket = "team3-project3-bucket"
     s3_key = "daily"+"/"+table 
 
@@ -22,7 +22,7 @@ with DAG(dag_id="{{ dag_id }}_daily",
     table = table,
     copy_options=['csv', 'IGNOREHEADER 1','dateformat \'auto\'','removequotes'],
     method = 'UPSERT', 
-    upsert_keys = {{ upsert_keys }},
+    upsert_keys = ['movieCd', 'actors'],
     redshift_conn_id = "redshift_dev_db",
     aws_conn_id = "aws_conn_id",
     dag = dag

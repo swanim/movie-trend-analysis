@@ -10,5 +10,5 @@ for f in os.listdir(file_dir):
     if f.endswith(".yml"):
         with open(f"{file_dir}/{f}", "r") as cf:
             config = yaml.safe_load(cf)
-            with open(f"dags/daily_{config['dag_id']}.py", "w") as f:
+            with open(f"dags/{config['dag_id']}_daily.py", "w") as f:
                 f.write(template.render(config))
