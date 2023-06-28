@@ -3,14 +3,13 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
 
   build:
 
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
     - name: docker login 
@@ -20,6 +19,7 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker image
-      run: docker-compose build  --file docker-compose.yml --tag $DOCKER_USER/devcourse-project:latest .
-    # - name: docker push
-    #   run: docker push $DOCKER_USER/devcourse-project:latest
+      run: docker build --file docker-compose.yml --tag $DOCKER_USER/project2-airflow:latest .
+    - name: docker push
+      run: docker push $DOCKER_USER/project2-airflow:latest
+

@@ -10,8 +10,8 @@ Atherna를 사용하여 매일 업데이트 되는 csv 파일을 임시로 저�
 - movie_summary_temp
 */
 CREATE EXTERNAL TABLE IF NOT EXISTS movie_codes_temp(
-    `movieNm` varchar(150),
-    `movieCd` varchar(10))
+    `movieCd` varchar(10),
+    `movieNm` varchar(150))
 LOCATION 's3://team3-project3-bucket/daily/temp/movie_codes_temp'
 
 CREATE EXTERNAL TABLE IF NOT EXISTS movie_director_temp(

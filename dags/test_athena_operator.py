@@ -24,8 +24,8 @@ with DAG("athena_query_test", default_args=default_args, schedule_interval= '@on
         task_id='run_query_test',
         database='athena_db',
         query='select * FROM "athena_db"."movie_sales"',
-        output_location='s3://team3-athena-results/',
-        aws_conn_id='project3_aws_conn_id'
+        output_location='s3://',
+        aws_conn_id='aws_s3_conn_id'
     )
 
     
