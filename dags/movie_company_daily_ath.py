@@ -22,8 +22,8 @@ SELECT DISTINCT t.*
 FROM "athena_db".movie_company_temp t
 LEFT JOIN "athena_db".movie_company s ON t.movieCd = s.movieCd
 WHERE s.movieCd IS NULL;''',
-        output_location='s3://team3-athena-results/athena-dag-insert/',
-        aws_conn_id='project3_aws_conn_id'
+        output_location='s3://',
+        aws_conn_id='aws_conn_id'
     )
     
 
