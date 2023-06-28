@@ -11,8 +11,8 @@ Athena SQL을 사용하여 s3에 daily로 업데이트되는 csv파일을 원본
 */
 
 CREATE EXTERNAL TABLE IF NOT EXISTS `athena_db`.`movie_codes` (
-   `movieNm` varchar(150),
-  `movieCd` varchar(10)
+  `movieCd` varchar(10),
+  `movieNm` varchar(150)
 )
 ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
 WITH SERDEPROPERTIES ('field.delim' = ',')
