@@ -1,0 +1,6 @@
+dag_id: 'movie_summary'
+schedule: '@daily'
+catchup: False
+schema: 'raw_data'
+table: 'movie_summary'
+upsert_keys: ["movieCd", "actors"]
