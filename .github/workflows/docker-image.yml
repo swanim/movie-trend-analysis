@@ -20,6 +20,6 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker image
-      run: docker-compose build . --file docker-compose.yml --tag $DOCKER_USER/devcourse-project:latest
-    - name: docker push
-      run: docker push $DOCKER_USER/devcourse-project:latest
+      run: docker-compose build  --file docker-compose.yml --tag $DOCKER_USER/devcourse-project:latest .
+    # - name: docker push
+    #   run: docker push $DOCKER_USER/devcourse-project:latest
