@@ -19,6 +19,6 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker image
-      run: docker-compose build --file docker-compose.yml --tag $DOCKER_USER/project2-airflow:latest .
+      run: docker build --file docker-compose.yml --tag $DOCKER_USER/project2-airflow:latest .
     - name: docker push
       run: docker push $DOCKER_USER/project2-airflow:latest
