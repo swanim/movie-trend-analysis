@@ -19,7 +19,7 @@ def upload_to_s3(s3_conn_id, s3_bucket, s3_key, csv_string, replace):
 
 def copy_to_s3(dataframes):
     s3_bucket = Variable.get("s3_bucket_name")
-    s3_folder = 'daily'
+    s3_folder = 'daily/temp'
     for name, dataframe in dataframes:
-        s3_key = '{}/{}.csv'.format(s3_folder, name)
+        s3_key = '{}/{}/{}.csv'.format(s3_folder, name, name)
         upload_to_s3('aws_s3_conn_id', s3_bucket, s3_key, dataframe, replace=True)
