@@ -1,5 +1,6 @@
 import logging
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
+from airflow.models import Variable
 
 
 def upload_to_s3(s3_conn_id, s3_bucket, s3_key, csv_string, replace):
@@ -14,3 +15,11 @@ def upload_to_s3(s3_conn_id, s3_bucket, s3_key, csv_string, replace):
         bucket_name=s3_bucket,
         replace=replace
     )
+
+
+def copy_to_s3(dataframes):
+    s3_bucket = Variable.get("s3_bucket_name")
+    s3_folder = 'daily'
+    for name, dataframe in dataframes:
+        s3_key = '{}/{}.csv'.format(s3_folder, name)
+        upload_to_s3('aws_s3_conn_id', s3_bucket, s3_key, dataframe, replace=True)
