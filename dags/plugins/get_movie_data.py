@@ -51,7 +51,7 @@ def get_movie_codes_and_sales():
                 print("uploading movie movie sales data... " + target_date.strftime('%Y%m%d') + " done")
                 json_data = response.json()
                 df = pd.DataFrame(json_data['boxOfficeResult']['dailyBoxOfficeList'])
-                df['date'] = target_date.strftime('%Y%m%d')
+                df['date'] = target_date.strftime('%Y-%m-%d')
                 res = pd.concat([res, df])
 
         except Exception as e:
