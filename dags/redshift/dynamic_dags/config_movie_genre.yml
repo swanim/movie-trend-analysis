@@ -1,0 +1,6 @@
+dag_id: 'movie_genre'
+schedule: '@daily'
+catchup: False
+schema: 'raw_data'
+table: 'movie_genre'
+upsert_keys: ["movieCd"]

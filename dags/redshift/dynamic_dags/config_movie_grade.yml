@@ -1,0 +1,6 @@
+dag_id: 'movie_grade'
+schedule: '@daily'
+catchup: False
+schema: 'raw_data'
+table: 'movie_grade'
+upsert_keys: ["movieCd"]
