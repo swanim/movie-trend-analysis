@@ -26,14 +26,13 @@
 | cloud | AWS |
 | machine learning | sklearn |
 | data pipeline | airflow |
-| data lake | s3 |
-| data warehouse | Amazon Redshift, S3 + Amazon Athena |
+| container | docker |
 | 협업 툴 | Trello, Slack, Github |
-
 <br/>
 
 ## 아키텍처
-![project3 (3)](https://github.com/data-dev-course/project2-airflow/assets/64563859/fe0bf1b1-2191-435e-a623-8bcda60c37ff)
+![project3 (5)](https://github.com/data-dev-course/project2-airflow/assets/64563859/c334f5e1-115e-4cfd-82b8-3c48cfd0941f)
+
 
 <br/>
 
