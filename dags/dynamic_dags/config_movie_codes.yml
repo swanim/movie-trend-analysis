@@ -1,6 +1,3 @@
 dag_id: 'movie_codes'
-schedule: '@daily'
-catchup: False
-schema: 'raw_data'
 table: 'movie_codes'
-upsert_keys: ["movieCd"]
+temp_table: 'movie_codes_temp'
