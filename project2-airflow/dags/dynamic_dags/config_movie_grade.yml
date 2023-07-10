@@ -1,0 +1,4 @@
+dag_id: 'movie_grade'
+
+table: 'movie_grade'
+temp_table: 'movie_grade_temp'

@@ -1,0 +1,4 @@
+dag_id: 'movie_director'
+
+table: 'movie_director'
+temp_table: 'movie_director_temp'

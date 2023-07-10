@@ -1,0 +1,4 @@
+dag_id: 'movie_summary'
+
+table: 'movie_summary'
+temp_table: 'movie_summary_temp'
