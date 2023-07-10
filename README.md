@@ -31,7 +31,7 @@
 <br/>
 
 ## 아키텍처
-![project3 (5)](https://github.com/data-dev-course/project2-airflow/assets/64563859/c334f5e1-115e-4cfd-82b8-3c48cfd0941f)
+![프로젝트3](https://github.com/data-dev-course/project2-airflow/assets/64563859/17e3ae63-7483-45e7-8174-a11f2dc5d4b7)
 
 
 <br/>
